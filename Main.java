@@ -10,9 +10,9 @@ public class Main {
         String cmd = scanner.nextLine();
 
         char[] c = cmd.toCharArray();
+        char[][] board = new char[3][3];
 
         int row = 0, col = 0;
-        char[][] board = new char[3][3];
 
         int numOfO = 0, numOfX = 0, totalNum = 0;
 
@@ -39,6 +39,8 @@ public class Main {
 
         while(true){
             try{
+                
+
                 System.out.print("Enter the coordinates: ");
 
                 cmd = scanner.nextLine();
