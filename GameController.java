@@ -1,11 +1,38 @@
+import java.util.Scanner;
+
 public class GameController {
 
     public GameController() {
 
     }
 
-    public void startGame() {
+    public void startGame(Scanner scanner, char[][] board) {
         Game game = new Game();
+
+        try{
+
+
+            System.out.print("Enter the coordinates: ");
+
+            String cmd = scanner.nextLine();
+
+            String[] coordinates = cmd.split(" ");
+
+            if(coordinates.length != 2 || coordinates[0].length() > 1 || coordinates[1].length() > 1)
+                throw new Exception("You should enter numbers!");
+
+            int x = Integer.parseInt(coordinates[0])-1, y = Integer.parseInt(coordinates[1])-1;
+
+            if(x > 3 || y > 3)
+                throw new Exception("Coordinates should be from 1 to 3!");
+
+            if(board[2-y][x] != ' ')
+                throw new Exception("This cell is occupied! Choose another one!");
+
+            board[2-y][x] = 'X';
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void setMove(){
