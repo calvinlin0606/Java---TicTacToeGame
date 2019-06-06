@@ -6,37 +6,40 @@ public class GameController {
 
     }
 
-    public void startGame(Scanner scanner, char[][] board) {
+    public void startGame(Scanner scanner, String difficulty) {
+        System.out.println("1");
         Game game = new Game();
 
-        try{
+        char[][] board = game.getBoard();
 
+        if(difficulty.equals("easy"))
+            game.setDifficulty(Game.Level.Easy);
+        else if(difficulty.equals("medium"))
+            game.setDifficulty(Game.Level.Medium);
+        else
+            game.setDifficulty(Game.Level.Hard);
 
-            System.out.print("Enter the coordinates: ");
+        while(true){
+            try{
+                System.out.print("Enter the coordinates: ");
 
-            String cmd = scanner.nextLine();
+                String cmd = scanner.nextLine();
 
-            String[] coordinates = cmd.split(" ");
+                this.validCoordinates(cmd, board);
 
-            if(coordinates.length != 2 || coordinates[0].length() > 1 || coordinates[1].length() > 1)
-                throw new Exception("You should enter numbers!");
+                String[] coordinates = cmd.split(" ");
+                int x = Integer.parseInt(coordinates[0])-1, y = Integer.parseInt(coordinates[1])-1;
 
-            int x = Integer.parseInt(coordinates[0])-1, y = Integer.parseInt(coordinates[1])-1;
+                board[2-y][x] = 'X';
+                this.validResult(board);
 
-            if(x > 3 || y > 3)
-                throw new Exception("Coordinates should be from 1 to 3!");
+                this.printBoard(board);
 
-            if(board[2-y][x] != ' ')
-                throw new Exception("This cell is occupied! Choose another one!");
-
-            board[2-y][x] = 'X';
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+                break;
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         }
-    }
-
-    public void setMove(){
-
     }
 
     public void printBoard(char[][] b){
@@ -53,7 +56,7 @@ public class GameController {
         System.out.println("---------");
     }
 
-    public void validResult(char[][] board, int numOfO, int numOfX, int totalNum){
+    public void validResult(char[][] board){
         int correct = 0;
         String output = "";
 
@@ -91,6 +94,20 @@ public class GameController {
             correct++;
         }
 
+        int numOfO = 0, numOfX = 0, totalNum = 0;
+        for (int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if(board[i][j]=='O'){
+                    numOfO++;
+                    totalNum++;
+                }
+                else if(board[i][j]=='X'){
+                    numOfX++;
+                    totalNum++;
+                }
+            }
+        }
+
         if(correct > 1)     output = "Impossible";
         else if(numOfO - numOfX >= 2 || numOfX - numOfO >= 2)
             output = "Impossible";
@@ -102,5 +119,20 @@ public class GameController {
         }
 
         System.out.println(output);
+    }
+
+    public void validCoordinates(String cmd, char[][] b) throws Exception{
+        String[] coordinates = cmd.split(" ");
+
+        if(coordinates.length != 2 || coordinates[0].length() > 1 || coordinates[1].length() > 1)
+            throw new Exception("You should enter numbers!");
+
+        int x = Integer.parseInt(coordinates[0])-1, y = Integer.parseInt(coordinates[1])-1;
+
+        if(x > 3 || y > 3)
+            throw new Exception("Coordinates should be from 1 to 3!");
+
+        if(b[2-y][x] != ' ')
+            throw new Exception("This cell is occupied! Choose another one!");
     }
 }
