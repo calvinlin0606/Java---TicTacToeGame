@@ -104,12 +104,7 @@ public class GameController {
         int numOfO = 0, numOfX = 0, totalNum = 0;
         for (int i=0;i<3;i++){
             for(int j=0;j<3;j++){
-                if(board[i][j]=='O'){
-                    //numOfO++;
-                    totalNum++;
-                }
-                else if(board[i][j]=='X'){
-                    //numOfX++;
+                if(board[i][j]=='O' || board[i][j]=='X'){
                     totalNum++;
                 }
             }
