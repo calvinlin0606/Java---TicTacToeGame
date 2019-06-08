@@ -29,7 +29,8 @@ public class Game {
     public Player getP2(){ return p2; }
     public int getTurn(){ return turn; }
 
-    public void setBoard(int x, int y, char label) { board[x][y] = label; }
+    public void setBoard(char[][] board) { this.board = board; }
+    public void setCoordinates(int x, int y, char label) { board[x][y] = label; }
     public void setDifficulty(Level difficulty) { this.difficulty = difficulty; }
     public void setP1(Player p1) { this.p1 = p1; }
     public void setP2(Player p2) { this.p2 = p2; }

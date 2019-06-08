@@ -44,7 +44,7 @@ public class GameController {
                 if(res.equals("Game not finished")){
                     int turn = game.getTurn()==1 ? 2 : 1;
                     game.setTurn(turn);
-
+                    game.setBoard(board);
                     continue;
                 }
                 else if(res.equals("Impossible"));
