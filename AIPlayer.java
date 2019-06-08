@@ -1,2 +1,2 @@
-public class AIPlayer {
+public class AIPlayer extends Player {
 }

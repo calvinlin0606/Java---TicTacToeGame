@@ -7,10 +7,9 @@ public class GameController {
     }
 
     public void startGame(Scanner scanner, String difficulty) {
-        System.out.println("1");
         Game game = new Game();
 
-        char[][] board = game.getBoard();
+        char[][] board = new char[3][3];
 
         if(difficulty.equals("easy"))
             game.setDifficulty(Game.Level.Easy);
@@ -19,28 +18,38 @@ public class GameController {
         else
             game.setDifficulty(Game.Level.Hard);
 
+        Player p1 = new HumanPlayer();
+        Player p2 = new AIPlayer();
+
+        game.setP1(p1);
+        game.setP2(p2);
+
         while(true){
             try{
                 System.out.print("Enter the coordinates: ");
-
                 String cmd = scanner.nextLine();
 
-                this.validCoordinates(cmd, board);
+                board = game.getBoard();
 
-                String[] coordinates = cmd.split(" ");
-                int x = Integer.parseInt(coordinates[0])-1, y = Integer.parseInt(coordinates[1])-1;
+                int[] c = this.validCoordinates(cmd, board);
 
-                board[2-y][x] = 'X';
+                if(game.getTurn() == 1)
+                    board[2-c[1]][c[0]] = 'X';
+                else
+                    board[2-c[1]][c[0]] = 'O';
                 String res = this.validResult(board);
 
                 this.printBoard(board);
 
                 if(res.equals("Game not finished")){
+                    int turn = game.getTurn()==1 ? 2 : 1;
+                    game.setTurn(turn);
+
                     continue;
                 }
                 else if(res.equals("Impossible"));
                 else{
-                    System.out.println(res);
+                    System.out.println(res);                // Draw or one of the players wins
                     break;
                 }
             }catch (Exception e){
@@ -110,8 +119,6 @@ public class GameController {
             }
         }
 
-
-
         if(correct > 1)     output = "Impossible";
         else if(correct == 0 && totalNum != 9){
             output = "Game not finished";
@@ -122,7 +129,7 @@ public class GameController {
         return output;
     }
 
-    public void validCoordinates(String cmd, char[][] b) throws Exception{
+    public int[] validCoordinates(String cmd, char[][] b) throws Exception{
         String[] coordinates = cmd.split(" ");
 
         if(coordinates.length != 2 || coordinates[0].length() > 1 || coordinates[1].length() > 1)
@@ -135,5 +142,11 @@ public class GameController {
 
         if(b[2-y][x] != ' ')
             throw new Exception("This cell is occupied! Choose another one!");
+
+        int[] c = new int[2];
+        c[0] = x;
+        c[1] = y;
+
+        return c;
     }
 }

@@ -46,7 +46,6 @@ public class Main {
                     if(!difficulty.equals("easy") && !difficulty.equals("medium") && !difficulty.equals("hard"))        // check difficulty
                         throw new Exception("Please input correct difficulty");
 
-                    //System.out.println("1");
                     gc.startGame(scanner, difficulty);
                 }
                 else if(part[0].equals("exit"))
